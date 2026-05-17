@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37203.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VNyan-JSTV", "VNyan-JSTV\VNyan-JSTV.csproj", "{B3A62BA3-DAE8-4E12-AAB7-114D045EE7A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3A62BA3-DAE8-4E12-AAB7-114D045EE7A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3A62BA3-DAE8-4E12-AAB7-114D045EE7A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3A62BA3-DAE8-4E12-AAB7-114D045EE7A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3A62BA3-DAE8-4E12-AAB7-114D045EE7A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE041B39-CBB5-415D-AEE1-CD8A307F0A8F}
+	EndGlobalSection
+EndGlobal
