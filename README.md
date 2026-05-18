@@ -28,6 +28,11 @@ Example:
 text1 - Username  
 text2 - Message  
 
+`_jsevent_<eventtype>` generated in response to various JSTV events. Listed at: https://support.joystick.tv/developer_support/#connecting-the-bot  
+text1 - Username
+text2 - Item name (e.g. tip menu or wheel prize)
+num1 - Value as appropriate (e.g. tip amount, or number of followers)
+
 ### Triggers you can send:  
 `_lum_jstv_sendchat` - Send a chat message  
 text1 - Message to send. This will be sent under the username you set in step 3
