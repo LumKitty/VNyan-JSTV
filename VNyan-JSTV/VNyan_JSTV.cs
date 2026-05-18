@@ -17,7 +17,7 @@ using WebSocketSharp;
 namespace VNyan_JSTV{
     public class VNyan_JSTV : IVNyanPluginManifest, ITriggerHandler {
         public string PluginName { get; } = "VNyan-JSTV";
-        public string Version { get; } = "0.1-alpha";
+        public string Version { get; } = "0.2-alpha";
         public string Title { get; } = "Joystick.tv integration for VNyan";
         public string Author { get; } = "LumKitty";
         public string Website { get; } = "https://lum.uk/";
