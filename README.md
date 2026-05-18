@@ -1,7 +1,7 @@
 ## VNyan -> Joystic.tv integration
 
-Early alpha software... good luck
-(Also I'm on holiday from 21st May - 2 June. You're welcome to send me bug reports, but please understand that I may not respond quickly)
+Early alpha software... good luck  
+(Also I'm on holiday from 21st May - 2 June. You're welcome to send me bug reports, but please understand that I may not respond quickly)  
 This plugin is completely free and open source. I will never ask you for money, but if it's useful consider dropping me a follow or a raid some time :3
 
 ### Setup - JSTV website:
