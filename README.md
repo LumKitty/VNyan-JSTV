@@ -41,5 +41,5 @@ num1 - Value as appropriate (e.g. tip amount, or number of followers)
 text1 - Message to send. This will be sent under the username you set in step 3
 
 ### Shameless self promo
-https://twitch.tv/LumKitty
+https://twitch.tv/LumKitty  
 https://joystick.tv/u/LumKitty
