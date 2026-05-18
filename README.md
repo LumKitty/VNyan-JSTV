@@ -14,9 +14,12 @@ This plugin is completely free and open source. I will never ask you for money, 
 6. Set the OAuth Redirect URL to http://localhost:6969
 
 ### Setup - VNyan
-6. Copy VNyan_JSTV.dll into .\VNyan\Items\Assemblies
-7. Start VNyan, then close it
-8. Open JSTV.json fill in the Application ID, Client ID and Client Secret you noted at step 4
+6. Copy VNyan_JSTV.dll and websocket-sharp-core.dll into .\VNyan\Items\Assemblies
+7. Make sure you unblocked them (right click -> properties -> unblock)
+8. Make sure you enabled plugins in VNyan's misc settings
+9. Start VNyan, then close it
+10. Open JSTV.json in your VNyan profile directory
+11. Fill in the Application ID, Client ID and Client Secret you noted at step 4
 
 ### Triggers you can recieve
 !commands will generate a VNyan trigger named `_jscmd_commands`  
