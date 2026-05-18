@@ -18,13 +18,13 @@ Early alpha software... good luck
 8. Open JSTV.json fill in the Application ID, Client ID and Client Secret you noted at step 4
 
 ### Triggers you can recieve
-!commands will generate a VNyan trigger named `_jstv_commands`  
+!commands will generate a VNyan trigger named `_jscmd_commands`  
 text1 - Username  
 text2 - Arguments  
 num1 - If the arguments are a number, it will be here, otherwise zero  
 
 Example:  
-!nut 50 -> `_jstv_nut` (Text2: 50 Num1: 50)  
+!nut 50 -> `_jscmd_nut` (Text2: 50 Num1: 50)  
 
 `_lum_jstv_chat` generated on every chat message  
 text1 - Username  
