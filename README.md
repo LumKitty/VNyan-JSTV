@@ -6,10 +6,11 @@ Early alpha software... good luck
 ### Setup - JSTV website:
 1. Visit https://joystick.tv/applications
 2. Create a new bot
-3. Fill in a username. This will be displayed in chat and should not be something generic like "VNyan"
+3. Fill in a username. This will be displayed in chat and should be specific to you, not something generic like "VNyan"
 4. Make a note of the Application ID, Client ID and Client Secret
    <img width="870" height="1065" alt="image" src="https://github.com/user-attachments/assets/0769e318-3d1c-4b94-8d54-9804ae5ae308" />
-5. Set the OAuth Redirect URL to http://localhost:6969
+5. Give it all the permissions for now, I'll figure out what it actually needs later!
+6. Set the OAuth Redirect URL to http://localhost:6969
 
 ### Setup - VNyan
 6. Copy VNyan_JSTV.dll into .\VNyan\Items\Assemblies
