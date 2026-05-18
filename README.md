@@ -1,4 +1,4 @@
-## VNyan -> Joystic.tv integration
+## VNyan -> Joystick.tv integration
 
 Early alpha software... good luck  
 (Also I'm on holiday from 21st May - 2 June. You're welcome to send me bug reports, but please understand that I may not respond quickly)  
