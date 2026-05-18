@@ -46,6 +46,7 @@ namespace VNyan_JSTV {
                                         ProcessJObject(Metadata, "prize", ref Item);
                                         ProcessJObject(Metadata, "how_much", ref Value);
                                         ProcessJObject(Metadata, "number_of_viewers", ref Value);
+                                        ProcessJObject(Metadata, "number_of_followers", ref Value);
                                     }
                                     VNyan_JSTV.CallVNyan("_jsevent_" + EventType, Value, 0, 0, UserName, Item, "");
                                     break;
