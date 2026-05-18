@@ -2,6 +2,7 @@
 
 Early alpha software... good luck
 (Also I'm on holiday from 21st May - 2 June. You're welcome to send me bug reports, but please understand that I may not respond quickly)
+This plugin is completely free and open source. I will never ask you for money, but if it's useful consider dropping me a follow or a raid some time :3
 
 ### Setup - JSTV website:
 1. Visit https://joystick.tv/applications
@@ -38,3 +39,7 @@ num1 - Value as appropriate (e.g. tip amount, or number of followers)
 ### Triggers you can send:  
 `_lum_jstv_sendchat` - Send a chat message  
 text1 - Message to send. This will be sent under the username you set in step 3
+
+### Shameless self promo
+https://twitch.tv/LumKitty
+https://joystick.tv/u/LumKitty
