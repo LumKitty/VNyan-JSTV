@@ -42,8 +42,10 @@ namespace VNyan_JSTV {
                                         JObject Metadata = JObject.Parse(Message["metadata"].ToString()); // I hate this
                                         //VNyan_JSTV.Log(Metadata.ToString());
                                         ProcessJObject(Metadata, "who", ref UserName);
+                                        ProcessJObject(Metadata, "title", ref Item);
                                         ProcessJObject(Metadata, "tip_menu_item", ref Item);
                                         ProcessJObject(Metadata, "prize", ref Item);
+                                        ProcessJObject(Metadata, "amount", ref Value);
                                         ProcessJObject(Metadata, "how_much", ref Value);
                                         ProcessJObject(Metadata, "number_of_viewers", ref Value);
                                         ProcessJObject(Metadata, "number_of_followers", ref Value);
