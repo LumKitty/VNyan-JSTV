@@ -1,7 +1,7 @@
 ## VNyan -> Joystick.tv integration
 
 Early alpha software... good luck  
-(Also I'm on holiday from 21st May - 2 June. You're welcome to send me bug reports, but please understand that I may not respond quickly)  
+
 This plugin is completely free and open source. I will never ask you for money, but if it's useful consider dropping me a follow or a raid some time :3
 
 ### Setup - JSTV website:
@@ -35,9 +35,9 @@ text1 - Username
 text2 - Message  
 
 `_jsevent_<eventtype>` generated in response to various JSTV events. Listed at: https://support.joystick.tv/developer_support/#connecting-the-bot  
-text1 - Username
-text2 - Item name (e.g. tip menu or wheel prize)
-num1 - Value as appropriate (e.g. tip amount, or number of followers)
+text1 - Username  
+text2 - Item name (e.g. tip menu or wheel prize)  
+num1 - Value as appropriate (e.g. tip amount, or number of followers)  
 
 ### Triggers you can send:  
 `_lum_jstv_sendchat` - Send a chat message  
