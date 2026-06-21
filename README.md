@@ -39,7 +39,7 @@ text1 - Username
 text2 - Item name (e.g. tip menu or wheel prize)  
 num1 - Value as appropriate (e.g. tip amount, or number of followers)  
 Some events will also send num2 and num3. These will be documented eventually. For now you will need to read JSMessage.cs to understand what is being sent and where!  
-Status of event support is in Events.xlsx. Green = This should work. Yellow = This might work. Red = Not implemented
+Status of event support is in Events.xlsx / Events.png. Green = This should work. Yellow = This might work. Red = Not implemented
 
 ### Triggers you can send:  
 `_lum_jstv_sendchat` - Send a chat message  
