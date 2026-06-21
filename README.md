@@ -30,7 +30,7 @@ num1 - If the arguments are a number, it will be here, otherwise zero
 Example:  
 !nut 50 -> `_jscmd_nut` (Text2: 50 Num1: 50)  
 
-`_lum_jstv_chat` generated on every chat message  
+`_jschat` generated on every chat message  
 text1 - Username  
 text2 - Message  
 
@@ -38,10 +38,20 @@ text2 - Message
 text1 - Username  
 text2 - Item name (e.g. tip menu or wheel prize)  
 num1 - Value as appropriate (e.g. tip amount, or number of followers)  
+Some events will also send num2 and num3. These will be documented eventually. For now you will need to read JSMessage.cs to understand what is being sent and where!  
+Status of event support is in Events.xlsx. Green = This should work. Yellow = This might work. Red = Not implemented
 
 ### Triggers you can send:  
 `_lum_jstv_sendchat` - Send a chat message  
 text1 - Message to send. This will be sent under the username you set in step 3
+
+`_lum_jstv_sendwhisper` - Send a chat message  
+text1 - Message to send. This will be sent under the username you set in step 3  
+text2 - Username to send to
+
+`_lum_jstv_connect` - Connect to joystick.tv  
+
+`_lum_jstv_disconnect` - Disconnect from joystick.tv
 
 ### Shameless self promo
 https://twitch.tv/LumKitty  
