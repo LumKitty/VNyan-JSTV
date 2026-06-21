@@ -15,6 +15,15 @@ namespace VNyan_JSTV {
                         case "_sendchat":
                             SendChatMessage(text1);
                             break;
+                        case "_sendwhisper":
+                            SendWhisper(text1, text2);
+                            break;
+                        case "_connect":
+                            VNyan_JSTV.ConnectJSTV();
+                            break;
+                        case "_disconnect":
+                            VNyan_JSTV.DisconnectJSTV();
+                            break;
                     }
                 }
             }
@@ -32,7 +41,21 @@ namespace VNyan_JSTV {
             );
             VNyan_JSTV.Log(JsonConvert.SerializeObject(MessageJSON));
             VNyan_JSTV.WSSend(ref MessageJSON);
+        }
 
+        private static void SendWhisper(string Message, string UserName) {
+            JObject MessageJSON = new JObject(
+                new JProperty("command", "message"),
+                new JProperty("identifier", "{\"channel\":\"GatewayChannel\"}"),
+                new JProperty("data", new JObject(
+                    new JProperty("action", "send_message"),
+                    new JProperty("username", UserName),
+                    new JProperty("text", Message),
+                    new JProperty("channelId", VNyan_JSTV.ChannelID)
+                ).ToString())
+            );
+            VNyan_JSTV.Log(JsonConvert.SerializeObject(MessageJSON));
+            VNyan_JSTV.WSSend(ref MessageJSON);
         }
     }
 }
