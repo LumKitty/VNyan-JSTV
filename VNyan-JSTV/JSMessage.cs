@@ -120,7 +120,7 @@ namespace VNyan_JSTV {
                                                 case "Tipped":
                                                     ProcessJObject(Metadata, "who", ref UserName);
                                                     ProcessJObject(Metadata, "tip_menu_item", ref Item);
-                                                    ProcessJObject(Metadata, "amount", ref Value1);
+                                                    ProcessJObject(Metadata, "how_much", ref Value1);
                                                     break;
                                                 case "WheelSpinClaimed":
                                                     ProcessJObject(Metadata, "who", ref UserName);
