@@ -56,3 +56,7 @@ text2 - Username to send to
 ### Shameless self promo
 https://twitch.tv/LumKitty  
 https://joystick.tv/u/LumKitty
+
+### Current implementation state for events
+Please let me know if these events (including all their values) are working for you
+<img src="https://github.com/LumKitty/VNyan-JSTV/blob/master/Events.png?raw=true">
