@@ -29,7 +29,7 @@ namespace VNyan_JSTV {
                                         VNyan_JSTV.CallVNyan("_jscmd_" + Cmd, arg, 0, 0, Message["author"]["username"].ToString(), Message["botCommandArg"].ToString(), Cmd);
                                     } else {
                                         if (VNyan_JSTV.TriggerOnAllChat) {
-                                            VNyan_JSTV.CallVNyan("_jschat_", 0, 0, 0, Message["author"]["username"].ToString(), Message["text"].ToString(), "");
+                                            VNyan_JSTV.CallVNyan("_jschat", 0, 0, 0, Message["author"]["username"].ToString(), Message["text"].ToString(), "");
                                         }
                                     }
                                     break;
