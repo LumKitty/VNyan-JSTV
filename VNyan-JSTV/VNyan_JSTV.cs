@@ -13,13 +13,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VNyanInterface;
-using WebSocketSharp;
 //using static System.Net.WebRequestMethods;
 
 namespace VNyan_JSTV{
     public class VNyan_JSTV : IVNyanPluginManifest, ITriggerHandler, IButtonClickedHandler {
         public string PluginName { get; } = "VNyan-JSTV";
-        public string Version { get; } = "0.3.1-alpha";
+        public string Version { get; } = "0.3.2-alpha";
         public string Title { get; } = "Joystick.tv integration for VNyan";
         public string Author { get; } = "LumKitty";
         public string Website { get; } = "https://lum.uk/";
@@ -28,36 +27,17 @@ namespace VNyan_JSTV{
         //const string PwMask = "*************";
         
         // User Settings
-        private static string UserName = "";
-        internal static string ChannelID = "";
-        private static string ApplicationID = "";
-        private static string ClientID = "";
-        private static string ClientSecret = "null-clientsecret";
-        private static int Port = 6969;
+        
         private static bool ConnectOnStartup = true;
         internal static List<string> FilterEvents = new List<string>();
         internal static bool LogSpam = false;
         internal static bool TriggerOnAllChat = false;
 
         // State
-        private static string RedirURL = "";
-        private static string EncodedAuth = "null-encodedauth";
-        private static string UserAccessToken = "null-useraccesstoken";
-        private static string UserRefreshToken = "null-refreshtoken";
-        private static bool ConnectionWanted = true;
-
-        internal static string TempAuthCode = "";
-        internal static string TempState = "";
-        internal static bool UserConnected = false;
-        internal static bool BotConnected = false;
-        internal static string State = GenerateRandomState();
-        private static WebSocketSharp.WebSocket wsClient;
-        private static System.Threading.CancellationToken CT = new System.Threading.CancellationToken();
-
 
         internal static void Log(string message) {
-            UnityEngine.Debug.Log("[JSTV] " + message.Replace(ClientSecret, "**CLIENTSECRET**").Replace(EncodedAuth, "**BASE64AUTH**")
-                .Replace(UserAccessToken, "**ACCESSTOKEN**").Replace(UserRefreshToken, "**REFRESHTOKEN**"));
+            UnityEngine.Debug.Log("[JSTV] " + message.Replace(JSTV.ClientSecret, "**CLIENTSECRET**").Replace(JSTV.EncodedAuth, "**BASE64AUTH**")
+                .Replace(JSTV.UserAccessToken, "**ACCESSTOKEN**").Replace(JSTV.UserRefreshToken, "**REFRESHTOKEN**"));
         }
         private static void ErrorHandler(Exception e) {
             Log("ERROR: " + e.ToString());
@@ -67,15 +47,15 @@ namespace VNyan_JSTV{
             JSTrigger.TriggerCalled(ref name, ref num1, ref num2, ref num3, ref text1, ref text2, ref text3);
         }
 
-        private static void SaveSettings() {
+        internal static void SaveSettings() {
             JObject Config = new JObject(
-                new JProperty("Port", Port),
-                new JProperty("ApplicationID", ApplicationID),
-                new JProperty("ClientID", ClientID),
-                new JProperty("ClientSecret", ClientSecret),
-                new JProperty("RefreshToken", UserRefreshToken),
-                new JProperty("UserName", UserName),
-                new JProperty("ChannelID", ChannelID),
+                new JProperty("Port", JSTV.Port),
+                new JProperty("ApplicationID", JSTV.ApplicationID),
+                new JProperty("ClientID", JSTV.ClientID),
+                new JProperty("ClientSecret", JSTV.ClientSecret),
+                new JProperty("RefreshToken", JSTV.UserRefreshToken),
+                new JProperty("UserName", JSTV.UserName),
+                new JProperty("ChannelID", JSTV.ChannelID),
                 new JProperty("ConnectOnStarup", ConnectOnStartup),
                 new JProperty("FilterEvents", JArray.FromObject(FilterEvents)),
                 new JProperty("LogSpam", LogSpam),
@@ -89,13 +69,13 @@ namespace VNyan_JSTV{
                 Log("Reading Settings File: " + SettingsFile);
                 JObject Config = JObject.Parse(File.ReadAllText(SettingsFile));
 
-                if (Config.ContainsKey("ApplicationID")) { ApplicationID    = Config["ApplicationID"].ToString(); }
-                if (Config.ContainsKey("ClientID"))      { ClientID         = Config["ClientID"].ToString(); }
-                if (Config.ContainsKey("ClientSecret"))  { ClientSecret     = Config["ClientSecret"].ToString(); }
-                if (Config.ContainsKey("Port"))          { Port             = int.Parse(Config["Port"].ToString()); }
-                if (Config.ContainsKey("RefreshToken"))  { UserRefreshToken = Config["RefreshToken"].ToString(); }
-                if (Config.ContainsKey("UserName"))      { UserName         = Config["UserName"].ToString(); }
-                if (Config.ContainsKey("ChannelID"))     { ChannelID        = Config["ChannelID"].ToString(); }
+                if (Config.ContainsKey("ApplicationID")) { JSTV.ApplicationID    = Config["ApplicationID"].ToString(); }
+                if (Config.ContainsKey("ClientID"))      { JSTV.ClientID         = Config["ClientID"].ToString(); }
+                if (Config.ContainsKey("ClientSecret"))  { JSTV.ClientSecret     = Config["ClientSecret"].ToString(); }
+                if (Config.ContainsKey("Port"))          { JSTV.Port             = int.Parse(Config["Port"].ToString()); }
+                if (Config.ContainsKey("RefreshToken"))  { JSTV.UserRefreshToken = Config["RefreshToken"].ToString(); }
+                if (Config.ContainsKey("UserName"))      { JSTV.UserName         = Config["UserName"].ToString(); }
+                if (Config.ContainsKey("ChannelID"))     { JSTV.ChannelID        = Config["ChannelID"].ToString(); }
                 if (Config.ContainsKey("ConnectOnStartup")) {
                     bool.TryParse(Config["ConnectOnStartup"].ToString(), out ConnectOnStartup); 
                 }
@@ -111,15 +91,15 @@ namespace VNyan_JSTV{
                 if (Config.ContainsKey("LogSpam")) { LogSpam = bool.Parse(Config["LogSpam"].ToString()); }
                 if (Config.ContainsKey("TriggerOnAllChat")) { TriggerOnAllChat = bool.Parse(Config["TriggerOnAllChat"].ToString()); }
 
-                Log("Port: " + Port.ToString());
-                Log("UserName: " + UserName);
-                Log("ChannelID: " + ChannelID);
+                Log("Port: " + JSTV.Port.ToString());
+                Log("UserName: " + JSTV.UserName);
+                Log("ChannelID: " + JSTV.ChannelID);
                 Log("ConnectOnStartup: " + ConnectOnStartup.ToString());
                 Log("FilterEvents: " + string.Join(",", FilterEvents));
                 Log("LogSpam: "+LogSpam.ToString());
                 Log("TriggerOnAllChat: " + TriggerOnAllChat.ToString());
 
-                if (ClientSecret == "null-clientsecret" || ApplicationID == "" || ClientID == "") {
+                if (JSTV.ClientSecret == "null-clientsecret" || JSTV.ApplicationID == "" || JSTV.ClientID == "") {
                     return false;
                 } else {
                     return true;
@@ -140,7 +120,7 @@ namespace VNyan_JSTV{
                 if (LoadSettings()) {
 
 
-                    if (ConnectOnStartup) { ConnectJSTV(); }
+                    if (ConnectOnStartup) { JSTV.ConnectJSTV(); }
                 } else {
                     Log("Please visit https://joystick.tv/applications create a new bot and then fill in ApplicationID, ClientID and ClientSecret in: " + SettingsFile);
                 }
@@ -150,44 +130,11 @@ namespace VNyan_JSTV{
         }
 
         public void pluginButtonClicked() {
-            if (ConnectionWanted) {
-                DisconnectJSTV();
+            if (JSTV.ConnectionWanted) {
+                JSTV.DisconnectJSTV();
             } else {
-                ConnectJSTV();
+                JSTV.ConnectJSTV();
             }
-        }
-
-        internal static async void ConnectJSTV() {
-            AuthoriseUser();
-            while (!UserConnected) { System.Threading.Thread.Sleep(100); }
-
-            Log("Authorised user. Connecting bot");
-            ConnectionWanted = true;
-            wsClient = new WebSocketSharp.WebSocket("wss://api.joystick.tv/cable?token=" + EncodedAuth, "actioncable-v1-json");
-            wsClient.OnOpen += ServerConnected;
-            wsClient.OnClose += ServerDisconnected;
-            wsClient.OnError += ServerDisconnected;
-            wsClient.OnMessage += JSMessage.MessageReceived;
-            wsClient.Connect();
-
-
-            while (!BotConnected) {
-                //Console.Write(".");
-                System.Threading.Thread.Sleep(100);
-            }
-
-            Log("Bot connected. Sending subscribe message");
-
-            JObject Message = new JObject(
-                new JProperty("command", "subscribe"),
-                new JProperty("identifier", "{\"channel\":\"GatewayChannel\"}")
-            );
-            WSSend(ref Message);
-        }
-
-        internal static async void DisconnectJSTV() {
-            ConnectionWanted = false;
-            wsClient.Close();
         }
 
         internal static void CallVNyan(string TriggerName, int int1, int int2, int int3, string text1, string text2, string text3) {
@@ -201,32 +148,7 @@ namespace VNyan_JSTV{
 
         
 
-        static async void ServerConnected(object sender, EventArgs args) {
-            Log("Server connected");
-            BotConnected = true;
-            VNyanInterface.VNyanInterface.VNyanParameter.setVNyanParameterFloat("_lum_jstv_connected", 1);
-            CallVNyan("_lum_jstv_connected", 0, 0, 0, "", "", "");
-        }
-
-        static async void ServerDisconnected(object sender, EventArgs args) {
-            Log("Server disconnected");
-            if (ConnectionWanted) { ConnectJSTV(); }
-            Log(args.ToString());
-            BotConnected = false;
-            VNyanInterface.VNyanInterface.VNyanParameter.setVNyanParameterFloat("_lum_jstv_connected", 0);
-            CallVNyan("_lum_jstv_disconnected", 0, 0, 0, "", "", "");
-        }
-
-        internal static void WSSend(ref JObject json) {
-            string data = JsonConvert.SerializeObject(json);
-            Log("WS Sending: " + data);
-            wsClient.Send(data);
-        }
-
-        private static string GenerateRandomState() {
-            //TODO: Actually make random
-            return "piss";
-        }
+        
         /*
         public static void OAuthBullshit() {
             int Timeout = 60 * 1000;
@@ -269,165 +191,7 @@ namespace VNyan_JSTV{
         }
         */
 
-        private static HttpResponseMessage? MakeHttpRequest(HttpRequestMessage requestMessage) {
-            try {
-                System.Net.Http.HttpClient Http = new System.Net.Http.HttpClient();
-                Log("Sending");
-                Task<HttpResponseMessage> authCodeTask = Http.SendAsync(requestMessage);
-                Log("Waiting");
-                if (authCodeTask.Wait(5000)) {
-                    Log("Got Result");
-                    return authCodeTask.Result;
-                } else {
-                    Log("Failed to get server response code in time");
-                    return null;
-                }
-            } catch (Exception e) {
-                Log(e.ToString());
-                return null;
-            }
-        }
-
-        private static string? HttpResponseToContent(HttpResponseMessage response) {
-            Task<String> authCodeReader = response.Content.ReadAsStringAsync();
-            if (authCodeReader.Wait(5000)) {
-                return authCodeReader.Result;
-            } else {
-                Log("Failed to read server in time");
-                return null;
-            }
-        }
         
-        private static string? MakeHttpRequestString(HttpRequestMessage requestMessage) {
-            return HttpResponseToContent(MakeHttpRequest(requestMessage));
-        }
-
-        public static void AuthoriseUser() {
-            HttpRequestMessage requestMessage;
-            System.Net.Http.HttpClient Http = new System.Net.Http.HttpClient();
-            HttpResponseMessage response;
-
-            string content;
-            int Timeout = 60 * 1000;
-            int PollFrequency = 100;
-            int MaxPolls = Timeout / PollFrequency;
-
-
-            if (UserRefreshToken == null) { UserRefreshToken = "null-refreshtoken"; }
-            EncodedAuth = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(ClientID + ":" + ClientSecret));
-
-            if (UserRefreshToken != "null-refreshtoken") {
-                Log("Logging in with refresh code");
-                requestMessage = new HttpRequestMessage(HttpMethod.Post, "https://api.joystick.tv/api/oauth/token?refresh_token=" + UserRefreshToken + "&grant_type=refresh_token");
-                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", EncodedAuth);
-                requestMessage.Headers.Add("X-JOYSTICK-STATE", State);
-                requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                requestMessage.Content = new StringContent("", Encoding.ASCII, "application/x-www-form-urlencoded");
-
-                //make the request
-                response = MakeHttpRequest(requestMessage);
-                content = HttpResponseToContent(response);
-
-                Log("Headers: " + response.Headers.ToString());
-                if (!response.IsSuccessStatusCode) {
-                    Log("Failed with statuscode: " + response.StatusCode.ToString());
-                    UserConnected = false;
-                } else {
-                    dynamic JsonContent = JsonConvert.DeserializeObject<dynamic>(content);
-
-                    UserAccessToken = JsonContent.access_token;
-                    UserRefreshToken = JsonContent.refresh_token;
-                    Log(JsonContent.ToString());
-                    UserConnected = true;
-                    Log("Content: " + content);
-                    SaveSettings();
-                }
-            }
-            if (!UserConnected) {
-                string[] args = new string[0];
-
-                string url = "https://api.joystick.tv/api/oauth/authorize?response_type=code&client_id=" + ClientID + "&scope=bot&state=" + State;
-
-                Log("Starting webserver");
-                HTTPServer Server = new HTTPServer(6969);
-                Server.Start(State);
-
-                Log("Launching browser");
-                Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
-
-                Log("Waiting for OAuth response");
-                int NumPolls = 0;
-                while ((TempState == "") && (TempAuthCode == "") && (NumPolls < MaxPolls)) {
-                    System.Threading.Thread.Sleep(PollFrequency);
-                    NumPolls++;
-                }
-
-                if (NumPolls == MaxPolls) {
-                    Log("Timed out waiting for OAuth");
-                    UserConnected = false;
-                    return;
-                }
-
-                Log("Response received");
-                //Log("Auth code: " + TempAuthCode);
-                Log("State    : " + TempState);
-
-                var Data = new StringContent("", Encoding.ASCII);
-                Data.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
-
-                
-                requestMessage = new HttpRequestMessage(HttpMethod.Post, "https://api.joystick.tv/api/oauth/token?redirect_uri=.&code=" + TempAuthCode + "&grant_type=authorization_code");
-                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", EncodedAuth);
-                requestMessage.Headers.Add("X-JOYSTICK-STATE", State);
-                requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                requestMessage.Content = new StringContent("", Encoding.ASCII, "application/x-www-form-urlencoded");
-
-                //make the request
-                Log("Logging in with auth code: "+requestMessage.RequestUri);
-
-                Log("Sending message");
-                response = MakeHttpRequest(requestMessage);
-                Log("Receiving message");
-                content = HttpResponseToContent(response);
-
-                Log("Headers: " + response.Headers.ToString());
-                if (!response.IsSuccessStatusCode) {
-                    Log("Failed with statuscode: " + response.StatusCode.ToString());
-                    UserConnected = false;
-                } else {
-                    dynamic JsonContent = JsonConvert.DeserializeObject<dynamic>(content);
-                    UserAccessToken = JsonContent.access_token;
-                    UserRefreshToken = JsonContent.refresh_token;
-                    Log("Content: " + content);
-                    UserConnected = true;
-                }
-            }
-            Log("Requesting Streamer Settings");
-            requestMessage = new HttpRequestMessage(HttpMethod.Get, "https://api.joystick.tv/api/users/stream-settings");
-            requestMessage.Headers.Add("Authorization", "Bearer " + UserAccessToken);
-            requestMessage.Headers.Add("X-JOYSTICK-STATE", State);
-            //requestMessage.Content = new StringContent("", Encoding.ASCII, "application/json");
-            Log("Sending message");
-            response = MakeHttpRequest(requestMessage);
-            Log("Receiving message");
-            content = HttpResponseToContent(response);
-            Log("Received");
-            if (!response.IsSuccessStatusCode) {
-                Log("Failed with statuscode: " + response.StatusCode.ToString());
-                Log(content);
-                UserConnected = false;
-                return;
-            } else {
-                Log(content);
-                dynamic JSON = JsonConvert.DeserializeObject<dynamic>(content);
-                UserName = JSON.username;
-                ChannelID = JSON.channel_id;
-                Log("Detected username: " + UserName);
-                Log("Detected channel ID:" + ChannelID);
-                SaveSettings();
-                UserConnected = true;
-            }
-        }
 
 
     }

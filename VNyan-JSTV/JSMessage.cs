@@ -178,5 +178,19 @@ namespace VNyan_JSTV {
                 Result = jObject[KeyName].ToString();
             }
         }
+
+        internal static void ServerConnected() {
+            VNyanInterface.VNyanInterface.VNyanParameter.setVNyanParameterFloat("_lum_jstv_connected", 1);
+            VNyan_JSTV.CallVNyan("_lum_jstv_connected", 0, 0, 0, "", "", "");
+        }
+
+        internal static void ServerDisconnected() {
+            VNyanInterface.VNyanInterface.VNyanParameter.setVNyanParameterFloat("_lum_jstv_connected", 0);
+            VNyan_JSTV.CallVNyan("_lum_jstv_disconnected", 0, 0, 0, "", "", "");
+        }
+
+        internal static void SaveSettings() {
+            VNyan_JSTV.SaveSettings();
+        }
     }
 }

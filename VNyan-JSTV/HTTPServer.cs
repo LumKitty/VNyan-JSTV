@@ -15,7 +15,7 @@ namespace VNyan_JSTV {
             _port = Port;
             string Binding = "http://localhost:" + _port.ToString() + "/";
             _listener = new HttpListener();
-            VNyan_JSTV.Log("Attempting to bind to URL: " + Binding);
+            JSTV.Log("Attempting to bind to URL: " + Binding);
             _listener.Prefixes.Add(Binding);
         }
 
@@ -41,24 +41,24 @@ namespace VNyan_JSTV {
                 bool GotAuthCode = false;
 
                 // do something with the request
-                VNyan_JSTV.Log($"Response: {request.Url}");
+                JSTV.Log($"Response: {request.Url}");
 
 
                 string requestString = request.Url.ToString();
 
                 int n = requestString.IndexOf('?') + 1;
                 string queryString = requestString[n..];
-                VNyan_JSTV.Log(queryString);
+                JSTV.Log(queryString);
                 foreach (string query in queryString.Split('&')) {
-                    VNyan_JSTV.Log("Parsing: " + query);
+                    JSTV.Log("Parsing: " + query);
                     int i = query.IndexOf('=');
                     string value = query[..i];
                     string data = query[(i + 1)..];
-                    VNyan_JSTV.Log("Value: " + value);
-                    VNyan_JSTV.Log("Data : " + data);
+                    JSTV.Log("Value: " + value);
+                    JSTV.Log("Data : " + data);
                     switch (value) {
                         case "code":
-                            VNyan_JSTV.TempAuthCode = data;
+                            JSTV.TempAuthCode = data;
                             GotAuthCode = true;
                             break;
                         case "state":
