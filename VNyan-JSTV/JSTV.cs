@@ -174,7 +174,7 @@ namespace VNyan_JSTV {
 
             if (UserRefreshToken != "null-refreshtoken") {
                 Log("Logging in with refresh code");
-                requestMessage = new HttpRequestMessage(HttpMethod.Post, "https://api.joystick.tv/api/oauth/token?refresh_token=" + UserRefreshToken + "&grant_type=refresh_token");
+                requestMessage = new HttpRequestMessage(HttpMethod.Post, "https://joystick.tv/api/oauth/token?refresh_token=" + UserRefreshToken + "&grant_type=refresh_token");
                 requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", EncodedAuth);
                 requestMessage.Headers.Add("X-JOYSTICK-STATE", State);
                 requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
