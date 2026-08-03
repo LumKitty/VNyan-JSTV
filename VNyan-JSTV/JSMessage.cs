@@ -7,12 +7,14 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Profiling.Memory.Experimental;
 using WebSocketSharp;
+using static VNyan_JSTV.Functions;
+using static VNyan_JSTV.Settings;
 
 namespace VNyan_JSTV {
     internal class JSMessage {
         internal static async void MessageReceived(object sender, MessageEventArgs args) {
             try {
-                if (VNyan_JSTV.LogSpam) { VNyan_JSTV.Log(args.Data); }
+                if (LogSpam) { Log(args.Data); }
                 JObject Results = JObject.Parse(args.Data);
                 if (Results.ContainsKey("identifier")) {
                     if (Results.ContainsKey("message")) {
@@ -26,10 +28,10 @@ namespace VNyan_JSTV {
                                         int arg = 0;
                                         int.TryParse(Message["botCommandArg"].ToString(), out arg);
                                         string Cmd = Message["botCommand"].ToString();
-                                        VNyan_JSTV.CallVNyan("_jscmd_" + Cmd, arg, 0, 0, Message["author"]["username"].ToString(), Message["botCommandArg"].ToString(), Cmd);
+                                        CallVNyan("_jscmd_" + Cmd, arg, 0, 0, Message["author"]["username"].ToString(), Message["botCommandArg"].ToString(), Cmd);
                                     } else {
-                                        if (VNyan_JSTV.TriggerOnAllChat) {
-                                            VNyan_JSTV.CallVNyan("_jschat", 0, 0, 0, Message["author"]["username"].ToString(), Message["text"].ToString(), "");
+                                        if (TriggerOnAllChat) {
+                                            CallVNyan("_jschat", 0, 0, 0, Message["author"]["username"].ToString(), Message["text"].ToString(), "");
                                         }
                                     }
                                     break;
@@ -41,10 +43,10 @@ namespace VNyan_JSTV {
                                     int Value3 = 0;
                                     string TempTime = "";
                                     string EventType = Message["type"].ToString();
-                                    if (VNyan_JSTV.FilterEvents.Contains(EventType)) {
-                                        if (VNyan_JSTV.LogSpam) { VNyan_JSTV.Log("Filtered event of type: " + EventType); }
+                                    if (FilterEvents.Contains(EventType)) {
+                                        if (LogSpam) { Log("Filtered event of type: " + EventType); }
                                     } else {
-                                        VNyan_JSTV.Log("Received stream event of type: " + EventType);
+                                        Log("Received stream event of type: " + EventType);
                                         if (Message.ContainsKey("metadata")) {
                                             //VNyan_JSTV.Log("Metadata found. Parsing");
                                             //VNyan_JSTV.Log(Message["metadata"].GetType().ToString());
@@ -148,7 +150,7 @@ namespace VNyan_JSTV {
                                                     //SettingsUpdated
                                             }
                                         }
-                                        VNyan_JSTV.CallVNyan("_jsevent_" + EventType, Value1, Value2, Value3, UserName, Item, "");
+                                        CallVNyan("_jsevent_" + EventType, Value1, Value2, Value3, UserName, Item, "");
                                     }
                                     break;
                             }
@@ -156,7 +158,7 @@ namespace VNyan_JSTV {
                     }
                 }
             } catch (Exception ex) {
-                VNyan_JSTV.Log("ERROR: " + ex.Message);
+                Log("ERROR: " + ex.Message);
             }
         }
 
@@ -181,16 +183,12 @@ namespace VNyan_JSTV {
 
         internal static void ServerConnected() {
             VNyanInterface.VNyanInterface.VNyanParameter.setVNyanParameterFloat("_lum_jstv_connected", 1);
-            VNyan_JSTV.CallVNyan("_lum_jstv_connected", 0, 0, 0, "", "", "");
+            CallVNyan("_lum_jstv_connected", 0, 0, 0, "", "", "");
         }
 
         internal static void ServerDisconnected() {
             VNyanInterface.VNyanInterface.VNyanParameter.setVNyanParameterFloat("_lum_jstv_connected", 0);
-            VNyan_JSTV.CallVNyan("_lum_jstv_disconnected", 0, 0, 0, "", "", "");
-        }
-
-        internal static void SaveSettings() {
-            VNyan_JSTV.SaveSettings();
+            CallVNyan("_lum_jstv_disconnected", 0, 0, 0, "", "", "");
         }
     }
 }

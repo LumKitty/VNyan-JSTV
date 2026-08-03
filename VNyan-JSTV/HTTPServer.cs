@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+using static VNyan_JSTV.Functions;
 
 namespace VNyan_JSTV {
     internal class HTTPServer {
@@ -15,7 +16,7 @@ namespace VNyan_JSTV {
             _port = Port;
             string Binding = "http://localhost:" + _port.ToString() + "/";
             _listener = new HttpListener();
-            JSTV.Log("Attempting to bind to URL: " + Binding);
+            Log("Attempting to bind to URL: " + Binding);
             _listener.Prefixes.Add(Binding);
         }
 
@@ -41,21 +42,21 @@ namespace VNyan_JSTV {
                 bool GotAuthCode = false;
 
                 // do something with the request
-                JSTV.Log($"Response: {request.Url}");
+                Log($"Response: {request.Url}");
 
 
                 string requestString = request.Url.ToString();
 
                 int n = requestString.IndexOf('?') + 1;
                 string queryString = requestString[n..];
-                JSTV.Log(queryString);
+                Log(queryString);
                 foreach (string query in queryString.Split('&')) {
-                    JSTV.Log("Parsing: " + query);
+                    Log("Parsing: " + query);
                     int i = query.IndexOf('=');
                     string value = query[..i];
                     string data = query[(i + 1)..];
-                    JSTV.Log("Value: " + value);
-                    JSTV.Log("Data : " + data);
+                    Log("Value: " + value);
+                    Log("Data : " + data);
                     switch (value) {
                         case "code":
                             JSTV.TempAuthCode = data;
