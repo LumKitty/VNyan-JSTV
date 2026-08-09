@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using WebSocketSharp;
@@ -28,7 +30,12 @@ namespace VNyan_JSTV {
         }
         internal static string GenerateRandomState() {
             //TODO: Actually make random
-            return "piss";
+            //return "piss";
+
+            byte[] randomBytes = new byte[32];
+            RandomNumberGenerator.Fill(randomBytes);
+            return Convert.ToBase64String(randomBytes).Replace('+', '-').Replace('/', '_').Replace("=", "");
+
         }
         internal static HttpResponseMessage? MakeHttpRequest(HttpRequestMessage requestMessage) {
             try {
