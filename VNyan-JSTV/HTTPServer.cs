@@ -59,7 +59,7 @@ namespace VNyan_JSTV {
                     Log("Data : " + data);
                     switch (value) {
                         case "code":
-                            JSTV.TempAuthCode = data;
+                            JSTV_Auth.TempAuthCode = data;
                             GotAuthCode = true;
                             break;
                         case "state":

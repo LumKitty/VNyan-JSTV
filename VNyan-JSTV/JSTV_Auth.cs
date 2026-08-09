@@ -24,8 +24,6 @@ namespace VNyan_JSTV {
             int PollFrequency = 100;
             int MaxPolls = Timeout / PollFrequency;
 
-
-            //if (UserRefreshToken == null) { UserRefreshToken = "null-refreshtoken"; }
             EncodedAuth = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(ClientID + ":" + ClientSecret));
 
             if (!UserRefreshToken.IsNullOrEmpty()) {

@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WebSocketSharp;
 using static VNyan_JSTV.Settings;
@@ -15,11 +16,18 @@ using static VNyan_JSTV.Functions;
 namespace VNyan_JSTV {
     internal class JSTV {
         internal static bool ConnectionWanted = true;
+        internal static Thread JoystickConnectionThread;
 
         private static WebSocketSharp.WebSocket wsClient;
         //private static System.Threading.CancellationToken CT = new System.Threading.CancellationToken();
 
         internal static async void ConnectJSTV() {
+            JoystickConnectionThread = new Thread(new ThreadStart(_ConnectJSTV));
+            JoystickConnectionThread.Name = "JSTV_AuthoriseAndConnect";
+            JoystickConnectionThread.Start();
+        }
+
+        internal static void _ConnectJSTV() {
             JSTV_Auth.AuthoriseUser();
             while (!UserConnected) { System.Threading.Thread.Sleep(100); }
 
@@ -31,20 +39,6 @@ namespace VNyan_JSTV {
             wsClient.OnError += ServerDisconnected;
             wsClient.OnMessage += JSMessage.MessageReceived;
             wsClient.Connect();
-
-
-            while (!BotConnected) {
-                //Console.Write(".");
-                System.Threading.Thread.Sleep(100);
-            }
-
-            Log("Bot connected. Sending subscribe message");
-
-            JObject Message = new JObject(
-                new JProperty("command", "subscribe"),
-                new JProperty("identifier", "{\"channel\":\"GatewayChannel\"}")
-            );
-            WSSend(ref Message);
         }
 
         internal static async void DisconnectJSTV() {
@@ -56,6 +50,13 @@ namespace VNyan_JSTV {
             Log("Server connected");
             BotConnected = true;
             JSMessage.ServerConnected();
+            Log("Bot connected. Sending subscribe message");
+
+            JObject Message = new JObject(
+                new JProperty("command", "subscribe"),
+                new JProperty("identifier", "{\"channel\":\"GatewayChannel\"}")
+            );
+            WSSend(ref Message);
         }
 
         static async void ServerDisconnected(object sender, EventArgs args) {
