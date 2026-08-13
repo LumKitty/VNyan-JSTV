@@ -1,6 +1,8 @@
 ## VNyan -> Joystick.tv integration
 
-Early alpha software... good luck  
+This is a beta. It works for me and several others, but no guarantees.
+With the announcement that VNyan will be getting official Joystick support in 1.7.2 this plugin won't see too much new development. I'll help with any issues and fix any bugs that you find, but won't be updating it to API 2.0 or anything like that.
+When VNyan 1.7.2 releases, I recommend using its native support instead of this plugin
 
 This plugin is completely free and open source. I will never ask you for money, but if it's useful consider dropping me a follow or a raid some time :3
 
